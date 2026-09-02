@@ -1,0 +1,114 @@
+{
+  "type": "FeatureCollection",
+  "properties": {
+    "anymap": {
+      "crs": "GCJ-02",
+      "schemaVer": "0.1.0",
+      "source": "高德 Web 服务 place/text（公开 POI）"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "poi-1",
+      "properties": {
+        "sym": "poi",
+        "name": "成都大熊猫繁育研究基地-熊猫塔",
+        "address": "熊猫大道1375号成都大熊猫繁育研究基地内(西侧)",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.133737,
+          30.740536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-2",
+      "properties": {
+        "sym": "poi",
+        "name": "成都大熊猫繁育研究基地大熊猫月亮产房",
+        "address": "外北熊猫大道1375号成都大熊猫繁育研究基地",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.139472,
+          30.739506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-3",
+      "properties": {
+        "sym": "poi",
+        "name": "大熊猫太阳产房",
+        "address": "外北熊猫大道1375号成都大熊猫繁育研究基地(东南角)",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.143395,
+          30.737633
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-4",
+      "properties": {
+        "sym": "poi",
+        "name": "成都大熊猫繁育研究基地",
+        "address": "熊猫大道1375号",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.138176,
+          30.740573
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-5",
+      "properties": {
+        "sym": "poi",
+        "name": "天鹅湖",
+        "address": "三河街道熊猫大道1375号成都大熊猫繁育研究基地",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.142105,
+          30.76177
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-6",
+      "properties": {
+        "sym": "poi",
+        "name": "大熊猫5号别墅",
+        "address": "外北熊猫大道1375号成都大熊猫繁育研究基地(东南角)",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.143967,
+          30.735843
+        ]
+      }
+    }
+  ]
+}

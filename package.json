@@ -1,0 +1,29 @@
+{
+  "name": "anymap-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MapLibre GL + compliant basemap providers + GeoJSON state, standardized for LLM agents",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build -w @anymap/core && npm run build -w @anymap/render && npm run build -w @anymap/cli",
+    "typecheck": "npm run build -w @anymap/core && npm run typecheck --workspaces",
+    "lint": "npm run typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "demo": "tsx scripts/make-demo.ts",
+    "smoke": "node scripts/smoke.mjs",
+    "prepare:golden": "tsx scripts/snapshot-golden.ts"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.11"
+  }
+}

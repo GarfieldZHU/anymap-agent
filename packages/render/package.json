@@ -1,0 +1,22 @@
+{
+  "name": "@anymap/render",
+  "version": "0.1.0",
+  "description": "MapLibre-based self-contained map page generator with compliant provider registry (AMap-first).",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anymap/core": "*"
+  }
+}

@@ -97,7 +97,8 @@ MapLibre 侧每个 provider 实例化为 `RasterTileSource` + `GeoJSONSource` �
 2. GeoJSON 图层按 schema 解释：`marker`（含 label）、`route`（线宽/虚线/箭头可选）、`area`（面填充）、`label`（文本）。
 3. 工具条：图层显隐、透明度、fit-bounds、坐标显示（点击复制 GCJ-02/WGS-84）。
 4. 自描述指纹：页面 footer 打印 `provider/zoom/bbox/schemaVer/coreVer`（G5.4 复现依据）。
-5. 单文件自包含（内联 GeoJSON + CDN MapLibre），可本地打开、可部署 Pages。
+5. 单文件可移植 HTML（内联 GeoJSON + CDN MapLibre + 远程瓦片；**联网依赖显式声明**，非离线单文件）。
+6. 安全基线（P0-5 采纳）：数据经 JSON 安全序列化（`\u003c` 防 `</script>` 边界）；popup 等一切注入文本先 HTML 转义；产物带 CSP（仅允许 https/data/blob 来源）；特征数量与字符串长度设上限（校验层）。
 
 ## 7. 目录演进预留
 

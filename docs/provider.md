@@ -56,3 +56,11 @@ export const amap: ProviderDef = {
 1. 仓库内任何文件不得出现真实可用 key（CI 用 secret，前端一律占位符或免 key 端点）。
 2. 高德 Web 服务 key（检索/路径规划等数据回路）只存在于**服务端脚本**（如 `examples/scripts/`，读取本地 `~/.openclaw/.env.amap`，.gitignore 排除），产物只落 GeoJSON（公开 POI，无个人信息）。
 3. 渲染页永不携带 key（v0.1 全为免 key 瓦片端点）。
+
+## 6. 免 key 瓦片的合规证据与定位（P0-6 采纳）
+
+「公开端点 = 境内合规 = 无泄漏面」不是可自动证明的断言。v0.1 定位与行动：
+
+- **定位**：高德栅格瓦片端点为「示例/开发用 provider」——默认可用，但对外发布前使用者应自行核对高德服务条款与授权范围。
+- **证据清单（M2 完成固化）**：来源与条款链接、核验日期、允许用途/地域、attribution 原文、瓦片端点版本与变更监测方式、限流/CORS 假设、下线应对。
+- **工程兜底**：CI 与 golden 一律使用冻结 fixture，不依赖线上端点；渲染页强制展示 attribution；provider 端点集中在一处（`providers/amap.ts`）便于一键切换与下线管理。

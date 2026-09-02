@@ -1,0 +1,51 @@
+{
+  "schemaVer": "0.1.0",
+  "crs": "GCJ-02",
+  "note": "真实地标坐标（来源：高德 Web 服务 place/text 2026-09-02 抓取，公开 POI，GCJ-02）。worldXY anchors 由 scripts/snapshot-golden.ts 回填，用于锁定 Web Mercator 投影公式防回归（docs/verification.md §2）。",
+  "landmarks": [
+    {
+      "name": "老君阁(青城山前山)",
+      "lon": 103.560715,
+      "lat": 30.90794,
+      "zoom": 15,
+      "source": "amap-place-text",
+      "worldXY": {
+        "x": 6607443.562041,
+        "y": 3436388.786691
+      }
+    },
+    {
+      "name": "天师洞(青城山)",
+      "lon": 103.560597,
+      "lat": 30.902104,
+      "zoom": 15,
+      "source": "amap-place-text",
+      "worldXY": {
+        "x": 6607440.812442,
+        "y": 3436547.277955
+      }
+    },
+    {
+      "name": "熊猫塔(成都大熊猫基地)",
+      "lon": 104.133737,
+      "lat": 30.740536,
+      "zoom": 16,
+      "source": "amap-place-text",
+      "worldXY": {
+        "x": 13241591.884823,
+        "y": 6881862.473877
+      }
+    },
+    {
+      "name": "三星堆综合馆",
+      "lon": 104.220554,
+      "lat": 31.000977,
+      "zoom": 17,
+      "source": "amap-place-text",
+      "worldXY": {
+        "x": 26491275.700543,
+        "y": 13735443.30311
+      }
+    }
+  ]
+}

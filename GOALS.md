@@ -62,8 +62,8 @@ Provider 注册表集中管理；**未在白名单的 provider 一律无法通�
 
 ## G3. 空间数据状态：GeoJSON 唯一状态 + 坐标/投影固化
 
-1. **一切空间数据的唯一真相 = GeoJSON**（FeatureCollection）。Agent 的「画什么」永远表达为 GeoJSON，禁止散落硬编码坐标点。
-2. **坐标系**：库内统一以 `crs` 显式声明；默认输入/输出 GCJ-02（与高德底图一致）；提供 `wgs84ToGcj02` / `gcj02ToWgs84`（含 BD-09 预留），输入 WGS-84 自动转换并告警记录。
+1. **一切空间数据的唯一真相 = GeoJSON（anymap GeoJSON profile，见 docs/data-model.md）**。Agent 的「画什么」永远表达为 GeoJSON，禁止散落硬编码坐标点。profile 是 RFC 7946 的超集式约定：**坐标系显式声明，缺省为 GCJ-02（非 WGS-84）并输出 warning**，不冒充纯标准 GeoJSON，避免第三方静默偏移（codex 审查 P0-1 采纳）。
+2. **坐标系**：库内统一以 `crs` 显式声明；默认输入/输出 GCJ-02（与高德底图一致）；提供 `wgs84ToGcj02` / `gcj02ToWgs84`（含 BD-09 预留）。WGS-84 入站在渲染边界做**可追踪转换**（返回 diagnostics：from/to/要素数/warning），转换后改写 crs 声明防二次转换；缺失/非法 crs 一律 warning 或 fail-closed（BD-09 未实现则报错）。
 3. **投影固化**：Web Mercator `lonLatToWorldXY(zoom)` + `worldXYToPixel`（scale/DPR 语义明确，见 ADR v5）；封装为 `@anymap/core` 纯函数，逐条配 golden 断言。
 4. **样式即数据**：GeoJSON 属性中携带渲染意图（`sym` 类型：marker/route/area/label；颜色；顺序），渲染器按 schema 解释，**不允许 agent 直接操纵像素**。
 5. GeoJSON Schema 版本化（`anymap.schema.json`），MCP/CLI 入参校验用同一 schema。
@@ -78,7 +78,7 @@ Provider 注册表集中管理；**未在白名单的 provider 一律无法通�
   B. JSON 任务描述               anymap render '{"type":"FeatureCollection",...}' --fit
   C. 自然语言任务（MCP 层）       render_map("把青城山前山这条路线画出来，标注老君阁")
 输出:
-  - 自包含交互地图页（HTML，MapLibre + provider 底图 + GeoJSON 矢量层，可单独打开/分享/嵌入）
+  - 可移植交互地图页（HTML：内联 GeoJSON + CDN MapLibre + provider 瓦片；**依赖联网加载**，非离线单文件——见 docs/architecture.md 可移植契约）
   - （可选）静态图导出 PNG（headless，标定模式）
 ```
 
@@ -106,6 +106,7 @@ Provider 注册表集中管理；**未在白名单的 provider 一律无法通�
 3. **CI 强制**：GitHub Actions `lint + test + build + demo 冒烟`，未过不得合入 main。
 4. **产物自描述**：渲染页携带「版本指纹」（provider/zoom/schema 版本），复现问题只需报指纹。
 5. 任何「视觉上感觉不对」的反馈，一律先转化为 golden 用例再修（把主观反馈沉淀为客观断言）。
+6. **独立审查闭环**：设计与重要实现变更可由独立 agent（本机 Codex `exec` 等）出审查报告至 `docs/reviews/`；P0 级问题闭环（采纳修订或论证否决）后才算合入。首份报告：`docs/reviews/review-1788346934.md`。
 
 ## G6. 交付形态与示例
 
@@ -125,11 +126,11 @@ Provider 注册表集中管理；**未在白名单的 provider 一律无法通�
 
 | 里程碑 | 内容 | 判据 |
 |---|---|---|
-| **M1（本迭代）** | repo + 纲领 + 设计文档 + v0.1 core/render/example + CI + golden 测试 | Pages demo 可开、`npm test` 全绿、双端接入文档可用 |
+| **M1（本迭代）** | repo + 纲领 + 设计文档 + v0.1 core/render/cli/example + CI + golden 测试 | CI 全绿（typecheck+test+demo+smoke）、Pages demo 可开 |
 | **M2** | MCP server 实装 + WorkBuddy mcp.json / Codex 实测接入 | 两端各 ≤5 分钟配置即用 |
 | **M3** | Rust 侧（按需）：投影/坐标转换库 + 可选 wasm 或瓦片代理 | 与 TS core 交叉验证（同一 golden 跑双实现） |
 | **M4** | 腾讯/天地图 provider + 海外例外文档 + 数据回路检索示例 | 白名单 provider ≥3 可切换 |
 
 ## 成功判据（一句话验收）
 
-> 给任意 agent 一份 GeoJSON + 一句话任务，它能 30 秒内产出与真实底图**像素级重合**的可交互地图页；给任何「画错了」的反馈，都能在 10 分钟内转化为一条防回归的 golden 测试。
+> 给任意 agent 一份**显式声明 crs** 的 GeoJSON 与一条渲染指令，它能用 `anymap render` 产出可交互地图页：在固定 MapLibre 版本 + 冻结数据下渲染**一致性**由 conformance 测试保证（core golden 全绿，浏览器级 conformance 于 M2 引入）；线上真实底图的观感以人工抽查为准（provider 内容会变，不作 CI 硬承诺，P0-2 采纳）。给任何「画错了」的反馈，都能在 10 分钟内转化为一条防回归的 golden 用例。

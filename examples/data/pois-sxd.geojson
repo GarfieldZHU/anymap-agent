@@ -1,0 +1,80 @@
+{
+  "type": "FeatureCollection",
+  "properties": {
+    "anymap": {
+      "crs": "GCJ-02",
+      "schemaVer": "0.1.0",
+      "source": "高德 Web 服务 place/text（公开 POI）"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "poi-1",
+      "properties": {
+        "sym": "poi",
+        "name": "三星堆博物馆-综合馆",
+        "address": "向新路133号三星堆博物馆",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.220554,
+          31.000977
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-2",
+      "properties": {
+        "sym": "poi",
+        "name": "三星堆博物馆",
+        "address": "向新路133号",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.218621,
+          31.001439
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-3",
+      "properties": {
+        "sym": "poi",
+        "name": "三星堆博物馆",
+        "address": "向新路133号",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.218621,
+          31.001439
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-4",
+      "properties": {
+        "sym": "poi",
+        "name": "广汉三星堆博物馆游客中心",
+        "address": "三星堆博物馆内",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.222431,
+          31.000567
+        ]
+      }
+    }
+  ]
+}

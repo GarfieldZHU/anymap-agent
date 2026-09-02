@@ -1,0 +1,20 @@
+{
+  "name": "@anymap/cli",
+  "version": "0.1.0",
+  "description": "anymap-agent CLI: render/validate/providers — 任意 agent 的 shell 调用面（GOALS G4.1）",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "anymap": "./dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anymap/core": "*",
+    "@anymap/render": "*"
+  }
+}

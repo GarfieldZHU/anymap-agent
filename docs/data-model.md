@@ -4,7 +4,8 @@
 
 ## 1. GeoJSON 唯一状态
 
-- 输入/输出/存储统一 RFC 7946 `FeatureCollection`。
+- 输入/输出/存储统一为 **anymap GeoJSON profile**（RFC 7946 结构超集 + 显式 `crs` 声明）。
+  **注意：本 profile 的缺省坐标系是 GCJ-02 而非 RFC 7946 默认的 WGS-84**——因此它不是纯标准 GeoJSON，第三方若按 WGS-84 解读会产生系统性偏移（codex 审查 P0-1）。对外文档一律称 profile，不称“RFC 7946 兼容”。
 - 要素几何：`Point`（POI/标点）、`LineString`（路线/轨迹）、`Polygon`（区域）。
 - 要素属性：`sym`（渲染语义）+ 业务字段。**渲染器只认 schema，不猜属性名**。
 
@@ -38,13 +39,13 @@
 
 | crs | 说明 | 使用方 |
 |---|---|---|
-| `GCJ-02` | 国测局火星坐标，**内部基准/默认** | 高德、腾讯底图与数据 |
-| `WGS-84` | GPS/国际数据 | 外部输入；入站自动转 GCJ-02 |
-| `BD-09` | 百度偏移（预留） | 百度 provider 时启用 |
+| `GCJ-02` | 国测局火星坐标，**profile 缺省/内部基准** | 高德、腾讯底图与数据 |
+| `WGS-84` | GPS/国际数据；**推荐外部输入显式声明** | 外部输入；渲染边界按需转 GCJ-02 |
+| `BD-09` | 百度偏移（预留，v0.1 未实现） | 百度 provider 时启用 |
 
-- FeatureCollection 级 `properties.anymap.crs` 声明数据坐标系；缺省按 GCJ-02。
-- 转换实现：`crs.ts` 提供 `wgs84ToGcj02 / gcj02ToWgs84`（公开的标准偏移算法，精度 ~1m 内），BD-09 预留占位。
-- 转换后**输出原坐标系标记 + 记录**（防止重复转换——重复 wgs→gcj→wgs 无害，但 wgs→gcj 再按 wgs 处理会二次偏移）。
+- FeatureCollection 级 `properties.anymap.crs` 声明数据坐标系；**未声明 → 按 GCJ-02 推断并输出 warning**（validate 返回 warnings，不静默）。
+- 转换实现：`crs.ts` 提供 `wgs84ToGcj02 / gcj02ToWgs84`（公开的标准偏移算法，可视化级近似；角度/米制/往返误差与境外样本见 tests/golden 与 crs.test.ts）。BD-09 预留占位，未实现即报错（fail-closed）。
+- 转换在渲染边界执行并**改写 crs 声明 + 返回 diagnostics**（inputCrs/outputCrs/要素数/warning），杜绝重复转换（二次 wgs→gcj 会把已偏移数据再偏一次）。
 
 ## 3. 投影固化（ll2px 与 Web Mercator）
 

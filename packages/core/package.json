@@ -1,0 +1,20 @@
+{
+  "name": "@anymap/core",
+  "version": "0.1.0",
+  "description": "Pure math layer: crs conversion (GCJ-02/WGS-84), Web Mercator projection, GeoJSON schema & ops. Zero runtime deps.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "schema"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project core"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "type": "FeatureCollection",
+  "properties": {
+    "anymap": {
+      "crs": "GCJ-02",
+      "schemaVer": "0.1.0",
+      "source": "高德 Web 服务 place/text（公开 POI）"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "poi-1",
+      "properties": {
+        "sym": "poi",
+        "name": "老君阁",
+        "address": "青城山镇青城山路168号青城山景区",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.560715,
+          30.90794
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-2",
+      "properties": {
+        "sym": "poi",
+        "name": "天师洞",
+        "address": "青城山镇青城山路168号青城山景区",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.560597,
+          30.902104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-3",
+      "properties": {
+        "sym": "poi",
+        "name": "月城湖",
+        "address": "青城山镇青城山路168号青城山景区(东南角)",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.568615,
+          30.902283
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-4",
+      "properties": {
+        "sym": "poi",
+        "name": "天然图画",
+        "address": "青城山镇青城山路168号青城山景区(东南角)",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.567522,
+          30.898778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-5",
+      "properties": {
+        "sym": "poi",
+        "name": "青城山索道",
+        "address": "青城山镇青城山路168号青城山景区内(东侧)",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.569567,
+          30.902718
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-6",
+      "properties": {
+        "sym": "poi",
+        "name": "建福宫",
+        "address": "青城山镇青城山路168号青城山景区(东南角)",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.572736,
+          30.897265
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poi-7",
+      "properties": {
+        "sym": "poi",
+        "name": "朝阳洞",
+        "address": "青城山镇青城山路168号青城山景区",
+        "source": "amap-place-text"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.557884,
+          30.905498
+        ]
+      }
+    }
+  ]
+}
