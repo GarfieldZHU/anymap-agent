@@ -8,10 +8,11 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const demoDir = join(root, 'dist/demo');
-const required = ['index.html', 'qcs.html', 'pan.html', 'sxd.html'];
+const mapPages = ['qcs.html', 'pan.html', 'sxd.html']; // 地图页：须含渲染指纹
+const plainPages = ['index.html']; // 汇总页：只查存在
 let fail = 0;
 
-for (const f of required) {
+for (const f of [...mapPages, ...plainPages]) {
   const fp = join(demoDir, f);
   if (!existsSync(fp)) {
     console.error(`✗ 缺少 ${f}`);
@@ -19,10 +20,14 @@ for (const f of required) {
     continue;
   }
   const s = readFileSync(fp, 'utf8');
-  const ok = s.includes('maplibre-gl') && s.includes('anymap-data') && s.includes('webrd0');
-  if (!ok) {
-    console.error(`✗ ${f} 缺少 maplibre/anymap-data/高德瓦片标记`);
-    fail++;
+  if (mapPages.includes(f)) {
+    const ok = s.includes('maplibre-gl') && s.includes('anymap-data') && s.includes('webrd0');
+    if (!ok) {
+      console.error(`✗ ${f} 缺少 maplibre/anymap-data/高德瓦片标记`);
+      fail++;
+    } else {
+      console.log(`✓ ${f} (${(s.length / 1024).toFixed(0)} KB)`);
+    }
   } else {
     console.log(`✓ ${f} (${(s.length / 1024).toFixed(0)} KB)`);
   }
