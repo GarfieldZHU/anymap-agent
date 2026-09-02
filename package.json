@@ -11,7 +11,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "npm run build -w @anymap/core && npm run build -w @anymap/render && npm run build -w @anymap/cli",
+    "build": "npm run build -w @anymap/core && npm run build -w @anymap/render && npm run build -w @anymap/cli && npm run build -w @anymap/mcp",
     "typecheck": "npm run build && npm run typecheck --workspaces",
     "lint": "npm run typecheck",
     "test": "vitest run",

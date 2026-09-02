@@ -10,13 +10,14 @@ MapLibre GL JS + 合规底图(高德先行) + GeoJSON 唯一状态，面向 agen
 ## 常用命令
 
 ```bash
-npm ci                    # 安装（npm workspaces）
-npm test                  # core + golden 测试（必跑，改动必过）
+npm ci                    # 安装（npm workspaces，外置盘用 npm install --no-bin-links）
+npm test                  # core + golden + mcp 协议测试（必跑，改动必过）
 npm run lint
 npm run build             # 构建所有包 + demo
 npm run demo              # 构建 demo 到 dist/demo
-npx anymap validate <file.geojson>
-npx anymap render <file.geojson> --provider amap -o out.html
+node packages/cli/dist/index.js validate <file.geojson>   # 注意：无 npx bin（外置盘 bin-link 问题）
+node packages/cli/dist/index.js render <file.geojson> --provider amap -o out.html
+node packages/mcp/dist/index.js   # MCP server（stdio，由 mcp.json / codex config 拉起）
 ```
 
 ## 硬性纪律（违反即打回）
@@ -34,7 +35,7 @@ npx anymap render <file.geojson> --provider amap -o out.html
 - `packages/core` 纯 TS 数学层（crs 转换 / 投影 / ops / schema）
 - `packages/render` MapLibre 渲染 + provider 注册表
 - `packages/cli` 命令行
-- `packages/mcp`（M2）MCP server
+- `packages/mcp` MCP server（stdio，tools：render_map/validate_geojson/providers/bounds_of_route）
 - `examples/data/*.geojson` 验收样例；`tests/golden/` 标定数据集
 
 ## 提交流程

@@ -33,7 +33,7 @@ MapLibre GL JS + 合规底图（高德先行）+ GeoJSON 唯一状态，面向 W
 ## 快速开始（v0.1，CI 已验证）
 
 ```bash
-npm ci && npm run build          # 构建 core/render/cli 三包
+npm ci && npm run build          # 构建 core/render/cli/mcp 四包
 
 # 校验数据（schema + sym + crs）
 node packages/cli/dist/index.js validate examples/data/qcs.routes.geojson
@@ -42,6 +42,8 @@ node packages/cli/dist/index.js validate examples/data/qcs.routes.geojson
 node packages/cli/dist/index.js render examples/data/qcs.routes.geojson --provider amap -o out.html
 # 浏览器打开 out.html：路线/POI 与高德底图对齐，可点击查 GCJ/WGS 坐标、显隐/透明度/复位
 ```
+
+**Agent 原生调用（MCP，M2）**：`packages/mcp` 是零依赖 stdio MCP server（tools：`render_map / validate_geojson / providers / bounds_of_route`），WorkBuddy 与 Codex 用同一 server。自检与两端接入见 [docs/agent-integration.md](docs/agent-integration.md) §2（mcp.json 片段）与 §3.3（codex config.toml 片段）。
 
 ## 文档索引
 
@@ -60,7 +62,8 @@ node packages/cli/dist/index.js render examples/data/qcs.routes.geojson --provid
 ## 里程碑状态
 
 - ✅ **M1** repo + 纲领 + 设计文档 + v0.1 core/render/cli + examples + golden 测试 + CI（全绿）+ Pages
-- ⏳ **M2** MCP server 实装 + WorkBuddy `~/.workbuddy/mcp.json` / Codex 实测接入（≤5 分钟配置）
+- ✅ **M2（server + 协议）** MCP server 实装（`packages/mcp`，零依赖 stdio）+ 协议测试 9 例全绿 + 接入文档
+- ⏳ **M2（两端激活，用户侧一步）** WorkBuddy `~/.workbuddy/mcp.json` 注册后 Trust；Codex `~/.codex/config.toml` `[mcp_servers]` —— 配置见 [docs/agent-integration.md](docs/agent-integration.md)
 - ⏳ **M3** Rust 交叉实现（同一 golden 跑双实现）+ 浏览器级 conformance（L4）
 - ⏳ **M4** 腾讯/天地图/百度 provider + 海外例外文档
 

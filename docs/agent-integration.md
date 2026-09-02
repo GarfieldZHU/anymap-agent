@@ -6,10 +6,10 @@
 
 | 面 | 载体 | 适合 | 状态 |
 |---|---|---|---|
-| **CLI** | `anymap render|validate|providers` | 任何 agent 的 shell 调用 | v0.1 |
+| **CLI** | `anymap render\|validate\|providers` | 任何 agent 的 shell 调用 | v0.1 |
 | **文件协议** | GeoJSON 入、自包含 HTML 出 | 直接交付/落盘 | v0.1 |
-| **HTTP API** | `POST /render`（预留） | 服务化/多 agent 共享 | M2+ |
-| **MCP** | stdio server，tools：`render_map / validate_geojson / providers / bounds_of_route` | WorkBuddy/Codex 原生 tool 调用 | M2 |
+| **HTTP API** | `POST /render`（预留） | 服务化/多 agent 共享 | 未实装（预留） |
+| **MCP** | stdio server（`packages/mcp`），tools：`render_map / validate_geojson / providers / bounds_of_route` | WorkBuddy/Codex 原生 tool 调用 | **v0.1（M2 实装 2026-09-02）** |
 
 CLI 契约（v0.1）：
 
@@ -29,7 +29,17 @@ anymap providers
 
 ## 2. WorkBuddy 接入（方式一：MCP；方式二：CLI+Skill）
 
-### 方式一：MCP server（M2 实装，配置即刻生效）
+### 方式一：MCP server（M2 已实装 `packages/mcp`，零运行时依赖）
+
+先自检 server（任意外部进程，含 WorkBuddy 拉起前）——把下面三行 JSON-RPC 喂给 server，应依次返回 serverInfo / provider 列表 / 渲染指纹：
+
+```bash
+cd /Users/alohayo/Home/Code/anymap-agent
+printf '%s\n' \
+'{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"probe","version":"0"}}}' \
+'{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"providers","arguments":{}}}' \
+| node packages/mcp/dist/index.js
+```
 
 在 `~/.workbuddy/mcp.json` 的 `mcpServers` 增加：
 
@@ -39,14 +49,15 @@ anymap providers
     "anymap-agent": {
       "type": "stdio",
       "command": "node",
-      "args": ["/Users/alohayo/Home/Code/anymap-agent/packages/mcp/dist/index.mjs"],
-      "env": { "ANYMAP_HOME": "/Users/alohayo/Home/Code/anymap-agent" }
+      "args": ["/Users/alohayo/Home/Code/anymap-agent/packages/mcp/dist/index.js"]
     }
   }
 }
 ```
 
-启用后：WorkBuddy 连接器管理右上角「自定义连接」→ 对 anymap-agent 点 **Trust**。之后 agent 可直接说「把这条 GeoJSON 渲染成高德底图的地图页」→ 调用 `render_map` 工具。
+> 说明：产物为 `dist/index.js`（ESM + shebang，target node20）。repo 根由 server 内部自推导，无需 `ANYMAP_HOME`；渲染产物缺省写到 `<repo>/dist/mcp-out/render-<ts>.html`。
+
+启用后：WorkBuddy 连接器管理右上角「自定义连接」→ 对 anymap-agent 点 **Trust**。之后 agent 可直接说「把这条 GeoJSON 渲染成高德底图的地图页」→ 调用 `render_map` 工具；返回的 HTML 绝对路径可立即预览/交付。
 
 ### 方式二：Skill（不依赖 MCP 也能用）
 
@@ -70,9 +81,18 @@ codex exec --skip-git-repo-check \
   "把 examples/data/qingchengshan.route.geojson 渲染为高德底图交互页并保存到 examples/out/"
 ```
 
-### 3.3 Codex 读 MCP（可选）
+### 3.3 Codex 读 MCP（可选，与 WorkBuddy 同一 server）
 
-Codex CLI 支持 MCP server 配置（config.toml `[mcp_servers]`），复用 §2 同一 server 即可，保证两端行为一致。
+Codex CLI 支持 MCP（`~/.codex/config.toml`），复用 §2 同一 server，保证两端行为一致：
+
+```toml
+# ~/.codex/config.toml
+[mcp_servers.anymap]
+command = "node"
+args = ["/Users/alohayo/Home/Code/anymap-agent/packages/mcp/dist/index.js"]
+```
+
+配置后 `codex exec "…渲染…"` 即可看到 `render_map` 等工具。验证：`codex mcp list`（列出已加载 server）；或直接让 Codex 调 `providers` 工具确认握手。
 
 ## 4. 交叉验证职责划分（GOALS G5 落点）
 
@@ -88,7 +108,8 @@ Codex CLI 支持 MCP server 配置（config.toml `[mcp_servers]`），复用 §2
 
 ## 6. 接入自检清单（提交前）
 
-- [ ] `npm ci && npm test` 全绿
+- [ ] `npm ci && npm test` 全绿（含 `packages/mcp/tests` 协议测试）
 - [ ] `npx anymap validate <样例>` 通过
+- [ ] MCP 自检：§2 的 JSON-RPC 探针返回 serverInfo + providers
 - [ ] 渲染页打开无控制台错误，指纹 footer 可见
 - [ ] 无 key 入库 / 无白名单外 provider URL

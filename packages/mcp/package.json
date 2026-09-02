@@ -1,0 +1,18 @@
+{
+  "name": "@anymap/mcp",
+  "version": "0.1.0",
+  "description": "anymap-agent MCP server (stdio, zero-dep JSON-RPC over stdio): render_map / validate_geojson / providers / bounds_of_route — WorkBuddy 与 Codex 的统一工具调用面（GOALS G4.2/G4.3, M2）",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project mcp"
+  },
+  "dependencies": {
+    "@anymap/core": "*",
+    "@anymap/render": "*"
+  }
+}

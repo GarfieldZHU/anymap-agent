@@ -29,7 +29,10 @@ anymap-agent/
 │   │   ├── src/map.ts       #   MapLibre 工厂：provider 底图 + GeoJSON 矢量层 + 工具条
 │   │   └── src/template.ts  #   自包含 HTML 模板（内联数据，可分享）
 │   ├── cli/                 # Node CLI：render / validate / provider-list
-│   └── mcp/                 # (M2) MCP server（stdio），v0.1 只留 schema 与文档
+│   └── mcp/                 # MCP server（stdio，零依赖 JSON-RPC，M2 已实装）
+│       ├── src/index.ts     #   协议层：initialize / ping / tools(list|call)
+│       ├── src/tools.ts     #   render_map / validate_geojson / providers / bounds_of_route
+│       └── tests/           #   协议级测试（真实 spawn dist + JSON-RPC 对话）
 ├── examples/
 │   ├── data/*.geojson       # 成都三景点 + 检索示例（真实数据脱敏/注明来源）
 │   └── scripts/             # 从高德 Web API 拉数据生成 GeoJSON（合规：公开 POI）
