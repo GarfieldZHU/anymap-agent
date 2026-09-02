@@ -1,0 +1,28 @@
+# deps
+node_modules/
+
+# build
+dist/
+build/
+*.tsbuildinfo
+
+# outputs (render products, local only)
+outputs/
+examples/out/
+
+# env & secrets
+.env
+.env.*
+*.local
+
+# os
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*
+
+# editor
+.idea/
+.vscode/
