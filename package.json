@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "npm run build -w @anymap/core && npm run build -w @anymap/render && npm run build -w @anymap/cli",
-    "typecheck": "npm run build -w @anymap/core && npm run typecheck --workspaces",
+    "typecheck": "npm run build && npm run typecheck --workspaces",
     "lint": "npm run typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -21,6 +21,7 @@
     "prepare:golden": "tsx scripts/snapshot-golden.ts"
   },
   "devDependencies": {
+    "@types/node": "^22.10.0",
     "tsup": "^8.5.1",
     "tsx": "^4.23.13",
     "typescript": "^5.9.0",

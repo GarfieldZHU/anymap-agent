@@ -5,9 +5,6 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "anymap": "./dist/index.js"
-  },
   "files": ["dist"],
   "scripts": {
     "build": "tsup",
